@@ -20,6 +20,6 @@ class MultiBinaryCrossentropy(nn.Module):
         preds_per_category = torch.split(y_pred, self.pred_splits, dim=1)
         for labels, preds in zip(labels_per_category, preds_per_category):
             preds = preds.reshape((preds.shape[0],))
-            loss_per_category.append(F.binary_cross_entropy(labels, preds))
-        return torch.sum(torch.tensor(loss_per_category))
-    
+            loss_per_category.append(F.binary_cross_entropy(preds, labels))
+        return torch.mean(torch.tensor(loss_per_category))
+        #return F.cross_entropy(y_pred, y_true)
